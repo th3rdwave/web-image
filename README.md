@@ -28,5 +28,5 @@ In your app
 ```js
 import { Image } from '@th3rdwave/web-image';
 
-<Image source={require('../image/img.png') />
+<Image source={require('../image/img.png')} />
 ```
