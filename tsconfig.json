@@ -1,6 +1,7 @@
 {
   "files": [],
   "include": [],
+  "compilerOptions": { "noEmit": true },
   "references": [
     { "path": "./packages/web-image" },
     { "path": "./packages/web-image-loader" }

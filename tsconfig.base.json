@@ -1,5 +1,14 @@
 {
   "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": false,
+    "emitDeclarationOnly": true,
+    "outDir": "./ts-lib",
+
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,

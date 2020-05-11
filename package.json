@@ -13,9 +13,11 @@
   },
   "author": "Janic Duplessis <janic@th3rdwave.coffee>",
   "scripts": {
-    "lint": "eslint \"{example,packages}/*/src/**/*.{js,ts,tsx}\"",
-    "typescript": "tsc -b",
-    "test": "jest",
+    "test": "yarn validate:prettier && yarn validate:eslint && yarn validate:typescript && yarn validate:jest",
+    "validate:eslint": "eslint \"{example,packages}/*/src/**/*.{js,ts,tsx}\"",
+    "validate:typescript": "tsc --noEmit",
+    "validate:prettier": "prettier \"{example,packages}/*/src/**/*.{js,ts,tsx}\" --check",
+    "validate:jest": "jest",
     "prerelease": "lerna run clean",
     "release": "lerna publish",
     "example": "yarn --cwd example"
