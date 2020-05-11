@@ -43,6 +43,10 @@ import { Image } from '@th3rdwave/web-image';
 <Image source={require('../image/img.png')} />
 ```
 
+## Caveats
+
+- Curently only a small subset of Image props are implemented.
+
 ## Example
 
 TODO
