@@ -4,6 +4,7 @@
 
 ## Features
 
+- Same API and behavior as the react-native Image component.
 - Uses modern browser features and is SSR / static website friendly.
 - Lazy loading using the html `loading="lazy"` attritute (https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading).
 - Automatic webp file generation and loading for supported browsers.
