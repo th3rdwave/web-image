@@ -4,7 +4,9 @@
 
 ## Install
 
+```sh
 npm install @th3rdwave/web-image @th3rdwave/web-image-loader
+```
 
 ## Usage
 
