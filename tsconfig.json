@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./packages/web-image" },
+    { "path": "./packages/web-image-loader" }
+  ]
+}

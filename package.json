@@ -1,0 +1,33 @@
+{
+  "description": "Modern image component for react-native-web",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "example"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/th3rdwave/web-image.git"
+  },
+  "author": "Janic Duplessis <janic@th3rdwave.coffee>",
+  "scripts": {
+    "lint": "eslint \"{example,packages}/*/src/**/*.{js,ts,tsx}\"",
+    "typescript": "tsc -b",
+    "test": "jest",
+    "prerelease": "lerna run clean",
+    "release": "lerna publish",
+    "example": "yarn --cwd example"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "@types/jest": "^25.2.1",
+    "eslint": "^7.0.0",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
+  }
+}

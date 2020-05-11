@@ -1,0 +1,6 @@
+{
+  "name": "example",
+  "dependencies": {
+    "expo": "^37.0.9"
+  }
+}
