@@ -21,6 +21,7 @@ In your webpack config:
       },
     ]
   }
+}
 ```
 
 In your app
