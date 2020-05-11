@@ -1,5 +1,7 @@
 {
-  "name": "example",
+  "name": "@th3rdwave/example",
+  "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "expo": "^37.0.9"
   }
