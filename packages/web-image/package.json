@@ -1,6 +1,6 @@
 {
   "name": "@th3rdwave/web-image",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Modern image component for React Native Web",
   "keywords": [
     "react",

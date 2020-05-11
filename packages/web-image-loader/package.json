@@ -1,6 +1,6 @@
 {
   "name": "@th3rdwave/image-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Webpack loader for web-image",
   "keywords": [
     "react",
@@ -27,28 +27,28 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^13.13.5",
-    "@types/loader-utils": "^1.1.3",
-    "@types/mime": "^2.0.1",
-    "@types/image-size": "^0.8.0",
-    "@types/imagemin": "^7.0.0",
-    "@types/imagemin-webp": "^5.1.0",
-    "@types/lodash": "^4.14.150",
-    "@types/mock-fs": "^4.10.0",
     "@babel/parser": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
     "@react-native-community/bob": "^0.13.1",
+    "@types/image-size": "^0.8.0",
+    "@types/imagemin": "^7.0.0",
+    "@types/imagemin-webp": "^5.1.0",
+    "@types/loader-utils": "^1.1.3",
+    "@types/lodash": "^4.14.150",
+    "@types/mime": "^2.0.1",
+    "@types/mock-fs": "^4.10.0",
+    "@types/node": "^13.13.5",
     "mock-fs": "^4.12.0"
   },
   "dependencies": {
-    "mime": "^2.4.5",
     "image-size": "^0.8.3",
-    "loader-utils": "^2.0.0",
-    "schema-utils": "^2.6.6",
     "imagemin": "^7.0.1",
     "imagemin-webp": "^5.1.0",
-    "lodash": "4.17.15"
+    "loader-utils": "^2.0.0",
+    "lodash": "4.17.15",
+    "mime": "^2.4.5",
+    "schema-utils": "^2.6.6"
   },
   "@react-native-community/bob": {
     "source": "src",
