@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/th3rdwave/web-image/workflows/CI/badge.svg)](https://github.com/th3rdwave/web-image/actions?query=workflow%3ACI) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
+SSR friendly image component that renders to a <picture> element with screen density and webp support while keeping the same api as React Native <Image />.
+
 ## Features
 
 - Same API and behavior as the react-native Image component.
