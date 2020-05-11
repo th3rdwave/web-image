@@ -24,7 +24,7 @@ In your webpack config:
 }
 ```
 
-In your app
+In your app:
 
 ```js
 import { Image } from '@th3rdwave/web-image';
