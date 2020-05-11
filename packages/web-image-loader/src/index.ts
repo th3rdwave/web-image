@@ -8,7 +8,7 @@ import { createImageWrapper } from './ImageWrapper';
 import schema from './options';
 import { ResolvedImageSource, WebpackResolvedImage } from './Types';
 
-const DEFAULT_IMAGE_CLASS_PATH = require.resolve('./modules/AdaptiveImage');
+const DEFAULT_IMAGE_CLASS_PATH = require.resolve('./AdaptiveImage');
 const DEFAULT_IMAGE_NAME_FORMAT = '[hash][scale].[ext]';
 const DEFAULT_SCALINGS = [1, 2, 3];
 

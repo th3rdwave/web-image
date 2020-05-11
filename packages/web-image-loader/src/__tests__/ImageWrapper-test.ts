@@ -3,7 +3,7 @@ import { createImageWrapper } from '../ImageWrapper';
 import { WebpackResolvedImage } from '../Types';
 
 const IMAGE_WRAPPER_PATH =
-  '"../../node_modules/react-native-web-image-loader/lib/modules/AdaptiveImage"';
+  '"../../node_modules/@th3rdwave/web-image-loader/lib/commonjs/AdaptiveImage"';
 
 const IMAGE_SIZE = { width: 100, height: 100 };
 

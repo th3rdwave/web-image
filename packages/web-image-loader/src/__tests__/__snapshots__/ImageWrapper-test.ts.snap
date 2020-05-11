@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ImageWrapper generates commonjs source 1`] = `
-"var AdaptiveImage = require(\\"../../node_modules/react-native-web-image-loader/lib/modules/AdaptiveImage\\").AdaptiveImage;
+"var AdaptiveImage = require(\\"../../node_modules/@th3rdwave/web-image-loader/lib/commonjs/AdaptiveImage\\").AdaptiveImage;
 
 module.exports = new AdaptiveImage({
   uri: __webpack_public_path__ + \\"static/img@1x.png\\",
@@ -20,7 +20,7 @@ module.exports = new AdaptiveImage({
 `;
 
 exports[`ImageWrapper generates es modules source 1`] = `
-"import {AdaptiveImage} from \\"../../node_modules/react-native-web-image-loader/lib/modules/AdaptiveImage\\";
+"import {AdaptiveImage} from \\"../../node_modules/@th3rdwave/web-image-loader/lib/commonjs/AdaptiveImage\\";
 
 export default new AdaptiveImage({
   uri: __webpack_public_path__ + \\"static/img@1x.png\\",
@@ -39,7 +39,7 @@ export default new AdaptiveImage({
 `;
 
 exports[`ImageWrapper handles multiple sources 1`] = `
-"import {AdaptiveImage} from \\"../../node_modules/react-native-web-image-loader/lib/modules/AdaptiveImage\\";
+"import {AdaptiveImage} from \\"../../node_modules/@th3rdwave/web-image-loader/lib/commonjs/AdaptiveImage\\";
 
 export default new AdaptiveImage({
   uri: __webpack_public_path__ + \\"static/img@1x.png\\",
