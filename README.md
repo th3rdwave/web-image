@@ -58,7 +58,7 @@ type Source = {
    */
   uri: string,
   /**
-   *
+   * Responsive image sources.
    */
   sources?: Array<{
     /**
@@ -79,13 +79,13 @@ Example:
 <Image
   source={{
     sources: [{
-      srcSet: "https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.webp 1x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.webp 2x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.webp 3x"
-      type: "image/webp"
+      srcSet: 'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.webp 1x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.webp 2x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.webp 3x',
+      type: 'image/webp',
     }, {
-      srcSet: "https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.jpg 1x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg 2x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.jpg 3x"
-      type: "image/jpeg"
+      srcSet: 'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.jpg 1x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg 2x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.jpg 3x',
+      type: 'image/jpeg',
     }],
-    uri: "https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg"
+    uri: 'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg',
   }}
 />
 ```
