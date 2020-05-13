@@ -21,6 +21,8 @@ npm install @th3rdwave/web-image @th3rdwave/web-image-loader
 
 ## Usage
 
+### Local images
+
 In your webpack config:
 
 ```js
@@ -43,6 +45,49 @@ In your app:
 import { Image } from '@th3rdwave/web-image';
 
 <Image source={require('../image/img.png')} />
+```
+
+### Network images
+
+This image component can also be used with network image. To support multiple formats and densities you must build an object to use as the source prop. 
+
+```ts
+type Source = {
+  /**
+   * Default url to use for the image.
+   */
+  uri: string,
+  /**
+   *
+   */
+  sources?: Array<{
+    /**
+     * Mime type for this source.
+     */
+    type: string,
+    /**
+     * [srcset](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset) for this source type.
+     */
+    srcSet: string,
+  }>,
+}
+```
+
+Example:
+
+```js
+<Image
+  source={{
+    sources: [{
+      srcSet: "https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.webp 1x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.webp 2x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.webp 3x"
+      type: "image/webp"
+    }, {
+      srcSet: "https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.jpg 1x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg 2x,https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.jpg 3x"
+      type: "image/jpeg"
+    }],
+    uri: "https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg"
+  }}
+/>
 ```
 
 ## Caveats
