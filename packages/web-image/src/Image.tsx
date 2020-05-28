@@ -116,7 +116,13 @@ export const Image = React.forwardRef<any, Props>(
             }}
           >
             {resolvedSource.sources?.map((s: any, i: number) => (
-              <source key={i} srcSet={s.srcSet} type={s.type} />
+              <source
+                key={i}
+                srcSet={s.srcSet}
+                media={s.media}
+                sizes={s.sizes}
+                type={s.type}
+              />
             ))}
             <img
               style={{
