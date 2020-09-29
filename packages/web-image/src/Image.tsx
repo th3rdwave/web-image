@@ -63,7 +63,7 @@ const resizeModeToObjectFit = (
   }
 };
 
-type Props = BaseImageProps & { critical?: boolean };
+type Props = BaseImageProps & { critical?: boolean; draggable?: boolean };
 
 export const Image = React.forwardRef<any, Props>(
   (
@@ -75,6 +75,7 @@ export const Image = React.forwardRef<any, Props>(
       height,
       critical,
       style,
+      draggable,
       ...others
     },
     ref,
@@ -142,6 +143,7 @@ export const Image = React.forwardRef<any, Props>(
               alt={accessibilityLabel}
               width={resolvedSource.width}
               height={resolvedSource.height}
+              draggable={draggable}
             />
           </picture>
         )}
