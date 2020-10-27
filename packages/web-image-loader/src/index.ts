@@ -91,7 +91,7 @@ export default async function resolve(
   });
 
   const esModule =
-    typeof options.esModule !== 'undefined' ? options.esModule : true;
+    typeof options.esModule !== 'undefined' ? options.esModule : false;
   const scalings = options.scalings ?? DEFAULT_SCALINGS;
   const wrapImage = createImageWrapper(
     loaderUtils.stringifyRequest(

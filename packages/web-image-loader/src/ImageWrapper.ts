@@ -1,7 +1,7 @@
 import groupBy from 'lodash/groupBy';
 import { WebpackResolvedImage } from './Types';
 
-export function createImageWrapper(classPath: string, esModule = false) {
+export function createImageWrapper(classPath: string, esModule: boolean) {
   return (
     size: { width: number; height: number },
     images: WebpackResolvedImage[],
