@@ -1,10 +1,10 @@
-import type { ObjectFitProperty } from 'csstype';
+import type { Property } from 'csstype';
 import * as React from 'react';
 import {
+  ImageProps as BaseImageProps,
   ImageResizeMode,
   View,
-  ImageProps as BaseImageProps,
-} from 'react-native-web';
+} from 'react-native';
 
 type ImageSource = any;
 
@@ -48,7 +48,7 @@ const resolveSource = (
 
 const resizeModeToObjectFit = (
   resizeMode: ImageResizeMode,
-): ObjectFitProperty => {
+): Property.ObjectFit => {
   switch (resizeMode) {
     case 'cover':
       return 'cover';
