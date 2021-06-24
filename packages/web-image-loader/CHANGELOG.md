@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/th3rdwave/web-image/tree/master/packages/web-image-loader/compare/@th3rdwave/web-image-loader@0.2.0...@th3rdwave/web-image-loader@0.2.1) (2021-06-24)
+
+**Note:** Version bump only for package @th3rdwave/web-image-loader
+
+
+
+
+
 # [0.2.0](https://github.com/th3rdwave/web-image/tree/master/packages/web-image-loader/compare/@th3rdwave/web-image-loader@0.1.5...@th3rdwave/web-image-loader@0.2.0) (2020-10-27)
 
 **Note:** Version bump only for package @th3rdwave/web-image-loader
