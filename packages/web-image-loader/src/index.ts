@@ -1,6 +1,6 @@
 import loaderUtils from 'loader-utils';
 import path from 'path';
-import validateSchema from 'schema-utils';
+import { validate } from 'schema-utils';
 import { loader } from 'webpack';
 import { resolveImage } from './ImageResolver';
 import { imageSize } from './ImageSizeResolver';
@@ -85,7 +85,7 @@ export default async function resolve(
 
   const options = loaderUtils.getOptions(this) as Options;
 
-  validateSchema(schema, options, {
+  validate(schema, options, {
     name: 'React Native Web Image Loader',
     baseDataPath: 'options',
   });
