@@ -3,16 +3,42 @@ import * as React from 'react';
 import {
   ImageProps as BaseImageProps,
   ImageResizeMode,
+  ImageURISource as BaseImageURISource,
   View,
 } from 'react-native';
 
-type ImageSource = any;
+export interface ResponsiveImageSource {
+  /**
+   * [srcset](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset) for this source type.
+   */
+  srcSet: string;
+  /**
+   * Mime type for this source.
+   */
+  type: string;
+}
+
+export interface ImageURISource extends BaseImageURISource {
+  /**
+   * Responsive image sources.
+   */
+  sources?: ResponsiveImageSource[] | null;
+}
+
+export type ImageSourcePropType =
+  | ImageURISource
+  | ImageURISource[]
+  | number
+  | string;
+
+const interopDefault = (source: any): ImageURISource =>
+  typeof source.default === 'object' ? source.default : source;
 
 const resolveSource = (
-  source: ImageSource,
+  source: ImageSourcePropType,
 ): {
   uri: string | undefined;
-  sources: { srcSet: string; type: string }[] | undefined;
+  sources: ResponsiveImageSource[] | null | undefined;
   width: number | undefined;
   height: number | undefined;
 } => {
@@ -24,8 +50,7 @@ const resolveSource = (
       height: undefined,
     };
   } else if (typeof source === 'object') {
-    const sourceObject =
-      typeof source.default === 'object' ? source.default : source;
+    const sourceObject = interopDefault(source);
     const width =
       typeof sourceObject.width === 'number' ? sourceObject.width : undefined;
     const height =
@@ -63,9 +88,23 @@ const resizeModeToObjectFit = (
   }
 };
 
-type Props = BaseImageProps & { critical?: boolean; draggable?: boolean };
+export interface ImageProps extends Omit<BaseImageProps, 'source'> {
+  /**
+   * If the image should not be lazy loaded.
+   *
+   * @platform web
+   */
+  critical?: boolean;
+  /**
+   * If the image is draggable.
+   *
+   * @platform web
+   */
+  draggable?: boolean;
+  source: ImageSourcePropType;
+}
 
-export const Image = React.forwardRef<any, Props>(
+export const Image = React.forwardRef<View, ImageProps>(
   (
     {
       source,
