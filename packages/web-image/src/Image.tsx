@@ -25,11 +25,7 @@ export interface ImageURISource extends BaseImageURISource {
   sources?: ResponsiveImageSource[] | null;
 }
 
-export type ImageSourcePropType =
-  | ImageURISource
-  | ImageURISource[]
-  | number
-  | string;
+export type ImageSourcePropType = ImageURISource | ImageURISource[] | number;
 
 const interopDefault = (source: any): ImageURISource =>
   typeof source.default === 'object' ? source.default : source;
