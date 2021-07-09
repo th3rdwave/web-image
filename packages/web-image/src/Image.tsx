@@ -1,6 +1,7 @@
 import type { Property } from 'csstype';
 import * as React from 'react';
 import {
+  ColorValue,
   ImageProps as BaseImageProps,
   ImageResizeMode,
   ImageStyle,
@@ -92,7 +93,7 @@ let _filterId = 0;
 
 // https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/Image/index.js
 const createTintColorSVG = (
-  tintColor: string | null | undefined,
+  tintColor: ColorValue | undefined,
   id: number | null | undefined,
 ) => {
   return tintColor != null && id != null ? (
@@ -107,7 +108,10 @@ const createTintColorSVG = (
       <defs>
         {/* @ts-expect-error */}
         <filter id={`tint-${id}`} suppressHydrationWarning={true}>
-          <feFlood floodColor={`${tintColor}`} key={tintColor} />
+          <feFlood
+            floodColor={`${tintColor as string}`}
+            key={tintColor as string}
+          />
           <feComposite in2="SourceAlpha" operator="atop" />
         </filter>
       </defs>
@@ -118,15 +122,22 @@ const createTintColorSVG = (
 const getFlatStyle = (
   style: StyleProp<ImageStyle> | null | undefined,
   blurRadius: number | null | undefined,
+  propsTintColor: ColorValue | undefined,
   filterId: number | null | undefined,
-) => {
+): [
+  ViewStyle,
+  ImageStyle['resizeMode'],
+  Property.Filter | undefined,
+  ColorValue | undefined,
+] => {
   const flatStyle = { ...StyleSheet.flatten(style) };
-  const { filter, tintColor } = flatStyle as any;
+  const { filter, resizeMode } = flatStyle as any;
+  const tintColor = flatStyle.tintColor ?? propsTintColor;
 
   // Add CSS filters
   // React Native exposes these features as props and proprietary styles
-  const filters = [];
-  let _filter = null;
+  const filters: string[] = [];
+  let _filter: string | undefined;
 
   if (filter) {
     filters.push(filter);
@@ -149,7 +160,7 @@ const getFlatStyle = (
   delete flatStyle.overlayColor;
   delete flatStyle.resizeMode;
 
-  return [flatStyle as ViewStyle, _filter, tintColor];
+  return [flatStyle, resizeMode, _filter, tintColor];
 };
 
 export interface ImageProps extends Omit<BaseImageProps, 'source'> {
@@ -166,6 +177,7 @@ export interface ImageProps extends Omit<BaseImageProps, 'source'> {
    */
   draggable?: boolean;
   source: ImageSourcePropType;
+  tintColor?: ColorValue;
 }
 
 export const Image = React.forwardRef<View, ImageProps>(
@@ -179,6 +191,7 @@ export const Image = React.forwardRef<View, ImageProps>(
       critical,
       style,
       draggable,
+      tintColor: propsTintColor,
       blurRadius,
       ...others
     },
@@ -189,6 +202,7 @@ export const Image = React.forwardRef<View, ImageProps>(
     const [flatStyle, _resizeMode, filter, tintColor] = getFlatStyle(
       style,
       blurRadius,
+      propsTintColor,
       filterRef.current,
     );
     const resizeMode = propsResizeMode ?? _resizeMode;
