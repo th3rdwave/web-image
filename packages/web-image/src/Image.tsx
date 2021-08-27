@@ -14,23 +14,36 @@ import {
 
 export interface ResponsiveImageSource {
   /**
-   * [srcset](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset) for this source type.
+   * A list of one or more strings separated by commas indicating a set of possible images represented by the source for the browser to use.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#attr-srcset
    */
-  srcSet: string;
+  readonly srcSet: string;
   /**
-   * Mime type for this source.
+   * The MIME media type of the resource, optionally with a codecs parameter.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#attr-type
    */
-  type: string;
+  readonly type: string;
+  /**
+   * Media query of the resource's intended media.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source#attr-media
+   */
+  readonly media?: string | null;
 }
 
 export interface ImageURISource extends BaseImageURISource {
   /**
    * Responsive image sources.
    */
-  sources?: ResponsiveImageSource[] | null;
+  sources?: readonly ResponsiveImageSource[] | null;
 }
 
-export type ImageSourcePropType = ImageURISource | ImageURISource[] | number;
+export type ImageSourcePropType =
+  | ImageURISource
+  | readonly ImageURISource[]
+  | number;
 
 const interopDefault = (source: any): ImageURISource =>
   typeof source.default === 'object' ? source.default : source;
@@ -39,7 +52,7 @@ const resolveSource = (
   source: ImageSourcePropType,
 ): {
   uri: string | undefined;
-  sources: ResponsiveImageSource[] | null | undefined;
+  sources: readonly ResponsiveImageSource[] | null | undefined;
   width: number | undefined;
   height: number | undefined;
 } => {
