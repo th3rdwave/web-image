@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/th3rdwave/web-image/tree/master/packages/web-image/compare/@th3rdwave/web-image@0.2.3...@th3rdwave/web-image@0.2.4) (2021-08-27)
+
+**Note:** Version bump only for package @th3rdwave/web-image
+
+
+
+
+
 ## [0.2.3](https://github.com/th3rdwave/web-image/tree/master/packages/web-image/compare/@th3rdwave/web-image@0.2.2...@th3rdwave/web-image@0.2.3) (2021-07-09)
 
 **Note:** Version bump only for package @th3rdwave/web-image
