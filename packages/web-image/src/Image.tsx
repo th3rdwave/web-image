@@ -232,11 +232,14 @@ export const Image = React.forwardRef<View, ImageProps>(
     // so just assume it starts when the component mounts, which is true
     // for images initially on screen. For the other ones fading them in
     // as they come on streen should always be a desired effect.
+    const imgRef = React.useRef<HTMLImageElement | null>(null);
     const timeoutRef = React.useRef<any>(null);
     React.useEffect(() => {
       if (fadeDuration !== 0) {
         timeoutRef.current = setTimeout(() => {
-          setLoaded(false);
+          if (imgRef.current != null && !imgRef.current.complete) {
+            setLoaded(false);
+          }
         }, 50);
       }
       return () => {
@@ -296,6 +299,7 @@ export const Image = React.forwardRef<View, ImageProps>(
               />
             ))}
             <img
+              ref={imgRef}
               style={{
                 width: '100%',
                 height: '100%',
