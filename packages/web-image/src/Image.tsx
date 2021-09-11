@@ -206,6 +206,8 @@ export const Image = React.forwardRef<View, ImageProps>(
       draggable,
       tintColor: propsTintColor,
       blurRadius,
+      fadeDuration = 300,
+      onLoadEnd,
       ...others
     },
     ref,
@@ -219,6 +221,35 @@ export const Image = React.forwardRef<View, ImageProps>(
       filterRef.current,
     );
     const resizeMode = propsResizeMode ?? _resizeMode;
+
+    const [loaded, setLoaded] = React.useState<boolean | null>(
+      fadeDuration === 0 ? true : null,
+    );
+
+    // Avoid fade effect if the image is cached or loaded very fast
+    // using arbitrary 50ms. There doesn't seem to be a way to know
+    // when an image starts loading using the dom api and loading="lazy"
+    // so just assume it starts when the component mounts, which is true
+    // for images initially on screen. For the other ones fading them in
+    // as they come on streen should always be a desired effect.
+    const timeoutRef = React.useRef<any>(null);
+    React.useEffect(() => {
+      if (fadeDuration !== 0) {
+        timeoutRef.current = setTimeout(() => {
+          setLoaded(false);
+        }, 50);
+      }
+      return () => {
+        clearTimeout(timeoutRef.current);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const onLoad = () => {
+      clearTimeout(timeoutRef.current);
+      setLoaded(true);
+      onLoadEnd?.();
+    };
 
     return (
       <View
@@ -277,6 +308,11 @@ export const Image = React.forwardRef<View, ImageProps>(
                       ? 'contain'
                       : 'cover'),
                 ),
+                opacity: loaded === false ? 0 : 1,
+                transition:
+                  loaded != null && fadeDuration !== 0
+                    ? `opacity ${fadeDuration}ms linear`
+                    : undefined,
               }}
               src={resolvedSource.uri}
               loading={critical ? 'eager' : 'lazy'}
@@ -284,6 +320,7 @@ export const Image = React.forwardRef<View, ImageProps>(
               width={resolvedSource.width}
               height={resolvedSource.height}
               draggable={draggable}
+              onLoad={onLoad}
             />
           </picture>
         )}
