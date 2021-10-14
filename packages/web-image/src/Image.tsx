@@ -248,7 +248,22 @@ export const Image = React.forwardRef<View, ImageProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // For SSR it is possible the image loads before react can attach event
+    // handles so check on mount if image has loaded already.
+    const hasCalledInitialLoad = React.useRef(false);
+    React.useEffect(() => {
+      if (
+        imgRef.current != null &&
+        imgRef.current.complete &&
+        !hasCalledInitialLoad.current
+      ) {
+        onLoadEnd?.();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const onLoad = () => {
+      hasCalledInitialLoad.current = true;
       clearTimeout(timeoutRef.current);
       setLoaded(true);
       onLoadEnd?.();
