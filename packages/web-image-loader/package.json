@@ -1,6 +1,6 @@
 {
   "name": "@th3rdwave/web-image-loader",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Webpack loader for web-image",
   "keywords": [
     "react",
@@ -43,11 +43,11 @@
   },
   "dependencies": {
     "image-size": "^1.0.0",
-    "sharp": "^0.29.1",
     "loader-utils": "^2.0.0",
     "lodash": "4.17.21",
     "mime": "^2.5.2",
-    "schema-utils": "^3.1.1"
+    "schema-utils": "^3.1.1",
+    "sharp": "^0.29.1"
   },
   "@react-native-community/bob": {
     "source": "src",
