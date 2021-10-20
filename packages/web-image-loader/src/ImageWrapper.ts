@@ -11,8 +11,10 @@ export function createImageWrapper(classPath: string, esModule: boolean) {
     // to pay to make the generated code beautiful :S
     const sources = `[
     ${Object.values(imagesByType)
-      // Make sure webp comes first.
-      .sort((a) => (a[0].type === 'image/webp' ? -1 : 1))
+      // Make sure avif then webp comes first.
+      .sort((a) =>
+        a[0].type === 'image/avif' ? -1 : a[0].type === 'image/webp' ? -1 : 1,
+      )
       .map(
         (group) => `{
       srcSet: ${group

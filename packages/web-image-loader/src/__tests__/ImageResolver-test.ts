@@ -2,7 +2,7 @@ import mockFs from 'mock-fs';
 
 import { parsePath, resolveImage } from '../ImageResolver';
 
-jest.mock('../WebpConverter');
+jest.mock('../Converter');
 
 const SCALES = [1, 2, 3];
 const BUFFER = Buffer.from([0]);
@@ -85,7 +85,7 @@ describe('ImageResolver', () => {
       mockFs.restore();
     });
 
-    it('resolves images with webp support', async () => {
+    it('resolves images with modern format support', async () => {
       expect(await resolveImage('/some/url/image.png', BUFFER, SCALES))
         .toMatchInlineSnapshot(`
         Array [
@@ -99,6 +99,20 @@ describe('ImageResolver', () => {
             "scale": 1,
             "type": "image/png",
             "uri": "/some/url/image.png",
+          },
+          Object {
+            "content": Object {
+              "data": Array [
+                9,
+                0,
+                0,
+                0,
+              ],
+              "type": "Buffer",
+            },
+            "scale": 1,
+            "type": "image/avif",
+            "uri": "/some/url/image.avif",
           },
           Object {
             "content": Object {
@@ -128,6 +142,20 @@ describe('ImageResolver', () => {
           Object {
             "content": Object {
               "data": Array [
+                9,
+                0,
+                0,
+                0,
+              ],
+              "type": "Buffer",
+            },
+            "scale": 2,
+            "type": "image/avif",
+            "uri": "/some/url/image@2x.avif",
+          },
+          Object {
+            "content": Object {
+              "data": Array [
                 1,
                 3,
                 3,
@@ -153,6 +181,20 @@ describe('ImageResolver', () => {
           Object {
             "content": Object {
               "data": Array [
+                9,
+                0,
+                0,
+                0,
+              ],
+              "type": "Buffer",
+            },
+            "scale": 3,
+            "type": "image/avif",
+            "uri": "/some/url/image@3x.avif",
+          },
+          Object {
+            "content": Object {
+              "data": Array [
                 1,
                 3,
                 3,
@@ -168,7 +210,7 @@ describe('ImageResolver', () => {
       `);
     });
 
-    it('resolves images without webp support', async () => {
+    it('resolves images without modern formats support', async () => {
       expect(await resolveImage('/some/url/anim.gif', BUFFER, SCALES))
         .toMatchInlineSnapshot(`
         Array [
@@ -227,6 +269,20 @@ describe('ImageResolver', () => {
           Object {
             "content": Object {
               "data": Array [
+                9,
+                0,
+                0,
+                0,
+              ],
+              "type": "Buffer",
+            },
+            "scale": 1,
+            "type": "image/avif",
+            "uri": "/some/url/lonely.avif",
+          },
+          Object {
+            "content": Object {
+              "data": Array [
                 1,
                 3,
                 3,
@@ -260,6 +316,20 @@ describe('ImageResolver', () => {
           Object {
             "content": Object {
               "data": Array [
+                9,
+                0,
+                0,
+                0,
+              ],
+              "type": "Buffer",
+            },
+            "scale": 2,
+            "type": "image/avif",
+            "uri": "/some/url/weird@2x.avif",
+          },
+          Object {
+            "content": Object {
+              "data": Array [
                 1,
                 3,
                 3,
@@ -289,6 +359,20 @@ describe('ImageResolver', () => {
             "scale": 1,
             "type": "image/png",
             "uri": "/some/url/wow.png",
+          },
+          Object {
+            "content": Object {
+              "data": Array [
+                9,
+                0,
+                0,
+                0,
+              ],
+              "type": "Buffer",
+            },
+            "scale": 1,
+            "type": "image/avif",
+            "uri": "/some/url/wow.avif",
           },
           Object {
             "content": Object {

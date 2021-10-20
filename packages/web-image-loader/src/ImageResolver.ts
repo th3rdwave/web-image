@@ -3,7 +3,7 @@ import { getType } from 'mime';
 import path from 'path';
 import { promisify } from 'util';
 import { ResolvedImageSource } from './Types';
-import { convertToWebp } from './WebpConverter';
+import { convertToWebp, convertToAvif } from './Converter';
 
 const statAsync = promisify(stat);
 const readFileAsync = promisify(readFile);
@@ -41,7 +41,7 @@ export async function resolveImage(
   if (type == null) {
     throw new Error(`Unable to parse mime type for ${resourcePath}.`);
   }
-  const generateWebp = type === 'image/png' || type === 'image/jpeg';
+  const generateModernFormats = type === 'image/png' || type === 'image/jpeg';
   const result: ResolvedImageSource[] = [];
 
   const getFilePath = (scale: number): string => {
@@ -52,8 +52,17 @@ export async function resolveImage(
   const addFile = async (scale: number, content: Buffer): Promise<void> => {
     const filePath = getFilePath(scale);
     result.push({ uri: filePath, content, scale, type });
-    if (generateWebp) {
-      const webpContent = await convertToWebp(content);
+    if (generateModernFormats) {
+      const [webpContent, avifContent] = await Promise.all([
+        convertToWebp(content),
+        convertToAvif(content),
+      ]);
+      result.push({
+        uri: filePath.replace(/\.png|\.jpe?g/, '.avif'),
+        content: avifContent,
+        scale,
+        type: 'image/avif',
+      });
       result.push({
         uri: filePath.replace(/\.png|\.jpe?g/, '.webp'),
         content: webpContent,
