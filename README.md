@@ -9,7 +9,7 @@ SSR friendly image component that renders to a `<picture>` element with screen d
 - Same API and behavior as the react-native Image component.
 - Uses modern browser features and is SSR / static website friendly.
 - Lazy loading using the html `loading="lazy"` attritute (https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading).
-- Automatic webp file generation and loading for supported browsers.
+- Automatic avif and webp file generation and loading for supported browsers.
 - Density support using the same file naming convention as react-native.
 - Automatic image dimensions for local assets.
 
@@ -44,19 +44,19 @@ In your app:
 ```js
 import { Image } from '@th3rdwave/web-image';
 
-<Image source={require('../image/img.png')} />
+<Image source={require('../image/img.png')} />;
 ```
 
 ### Network images
 
-This image component can also be used with network image. To support multiple formats and densities you must build an object to use as the source prop. 
+This image component can also be used with network image. To support multiple formats and densities you must build an object to use as the source prop.
 
 ```ts
 type Source = {
   /**
    * Default url to use for the image.
    */
-  uri: string,
+  uri: string;
   /**
    * Responsive image sources.
    */
@@ -64,13 +64,13 @@ type Source = {
     /**
      * Mime type for this source.
      */
-    type: string,
+    type: string;
     /**
      * [srcset](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset) for this source type.
      */
-    srcSet: string,
-  }>,
-}
+    srcSet: string;
+  }>;
+};
 ```
 
 Example:
@@ -78,13 +78,18 @@ Example:
 ```js
 <Image
   source={{
-    sources: [{
-      srcSet: 'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.webp 1x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.webp 2x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.webp 3x',
-      type: 'image/webp',
-    }, {
-      srcSet: 'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.jpg 1x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg 2x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.jpg 3x',
-      type: 'image/jpeg',
-    }],
+    sources: [
+      {
+        srcSet:
+          'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.webp 1x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.webp 2x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.webp 3x',
+        type: 'image/webp',
+      },
+      {
+        srcSet:
+          'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_1x.jpg 1x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg 2x, https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_3x.jpg 3x',
+        type: 'image/jpeg',
+      },
+    ],
     uri: 'https://cdn.th3rdwave.coffee/merchants/rJvse_3Nz/rJvse_3Nz-sm_2x.jpg',
   }}
 />
