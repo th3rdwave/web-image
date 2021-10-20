@@ -43,6 +43,7 @@ describe('ImageWrapper', () => {
     expect(
       imageWrapper(IMAGE_SIZE, [
         ...createImages('img.png'),
+        ...createImages('img.avif'),
         ...createImages('img.webp'),
       ]),
     ).toMatchSnapshot();

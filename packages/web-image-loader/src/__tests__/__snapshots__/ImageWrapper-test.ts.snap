@@ -47,6 +47,12 @@ export default new AdaptiveImage({
   height: 100,
   sources: [
     {
+      srcSet: __webpack_public_path__ + \\"static/img@1x.avif\\" + \\" 1x\\" + \\",\\" +
+        __webpack_public_path__ + \\"static/img@2x.avif\\" + \\" 2x\\" + \\",\\" +
+        __webpack_public_path__ + \\"static/img@3x.avif\\" + \\" 3x\\",
+      type: \\"image/avif\\"
+    },
+    {
       srcSet: __webpack_public_path__ + \\"static/img@1x.webp\\" + \\" 1x\\" + \\",\\" +
         __webpack_public_path__ + \\"static/img@2x.webp\\" + \\" 2x\\" + \\",\\" +
         __webpack_public_path__ + \\"static/img@3x.webp\\" + \\" 3x\\",

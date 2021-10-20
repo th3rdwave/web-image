@@ -1,6 +1,8 @@
 import groupBy from 'lodash/groupBy';
 import { WebpackResolvedImage } from './Types';
 
+const SORT = ['image/webp', 'image/avif'];
+
 export function createImageWrapper(classPath: string, esModule: boolean) {
   return (
     size: { width: number; height: number },
@@ -12,9 +14,11 @@ export function createImageWrapper(classPath: string, esModule: boolean) {
     const sources = `[
     ${Object.values(imagesByType)
       // Make sure avif then webp comes first.
-      .sort((a) =>
-        a[0].type === 'image/avif' ? -1 : a[0].type === 'image/webp' ? -1 : 1,
-      )
+      .sort((a, b) => {
+        const ia = SORT.indexOf(a[0].type);
+        const ib = SORT.indexOf(b[0].type);
+        return ib - ia;
+      })
       .map(
         (group) => `{
       srcSet: ${group
