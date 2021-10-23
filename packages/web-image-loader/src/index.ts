@@ -45,6 +45,9 @@ async function emitAndResolveImage(
   if (file.type === 'image/webp') {
     fileName = fileName.replace(/\.png|\.jpe?g/, '.webp');
   }
+  if (file.type === 'image/avif') {
+    fileName = fileName.replace(/\.png|\.jpe?g/, '.avif');
+  }
 
   let outputPath = fileName;
   if (options.outputPath) {
@@ -81,7 +84,6 @@ export default async function resolve(
   content: Buffer,
 ): Promise<void> {
   const callback = this.async()!;
-  // if (this.cacheable) this.cacheable() // TODO
 
   const options = loaderUtils.getOptions(this) as Options;
 
