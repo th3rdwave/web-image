@@ -8,10 +8,6 @@ export interface ResolvedImageSource {
    */
   uri: string;
   /**
-   * The content of the image
-   */
-  content: Buffer;
-  /**
    * Mime type
    */
   type: string;

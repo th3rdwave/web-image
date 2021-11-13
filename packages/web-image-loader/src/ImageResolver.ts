@@ -1,12 +1,9 @@
-import { stat, readFile } from 'fs';
+import fs from 'fs/promises';
 import { getType } from 'mime';
 import path from 'path';
-import { promisify } from 'util';
+import { convertToAvif, convertToWebp } from './Converter';
+import { imageSize, Size } from './ImageSizeResolver';
 import { ResolvedImageSource } from './Types';
-import { convertToWebp, convertToAvif } from './Converter';
-
-const statAsync = promisify(stat);
-const readFileAsync = promisify(readFile);
 
 interface ParsedPath {
   dir: string;
@@ -35,14 +32,14 @@ export async function resolveImage(
   resourcePath: string,
   resourceContent: Buffer,
   scales: number[],
-): Promise<ResolvedImageSource[]> {
+  emitFileCallback: (file: ResolvedImageSource, content: Buffer) => void,
+): Promise<Size> {
   const fileData = parsePath(resourcePath);
   const type = getType(fileData.ext);
   if (type == null) {
     throw new Error(`Unable to parse mime type for ${resourcePath}.`);
   }
   const generateModernFormats = type === 'image/png' || type === 'image/jpeg';
-  const result: ResolvedImageSource[] = [];
 
   const getFilePath = (scale: number): string => {
     const suffix = scale === 1 ? '' : `@${scale}x`;
@@ -51,38 +48,39 @@ export async function resolveImage(
 
   const addFile = async (scale: number, content: Buffer): Promise<void> => {
     const filePath = getFilePath(scale);
-    result.push({ uri: filePath, content, scale, type });
+    emitFileCallback({ uri: filePath, scale, type }, content);
     if (generateModernFormats) {
-      const [webpContent, avifContent] = await Promise.all([
-        convertToWebp(content),
-        convertToAvif(content),
-      ]);
-      result.push({
-        uri: filePath.replace(/\.png|\.jpe?g/, '.avif'),
-        content: avifContent,
-        scale,
-        type: 'image/avif',
-      });
-      result.push({
-        uri: filePath.replace(/\.png|\.jpe?g/, '.webp'),
-        content: webpContent,
-        scale,
-        type: 'image/webp',
-      });
+      emitFileCallback(
+        {
+          uri: filePath.replace(/\.png|\.jpe?g/, '.avif'),
+          scale,
+          type: 'image/avif',
+        },
+        await convertToAvif(content),
+      );
+      emitFileCallback(
+        {
+          uri: filePath.replace(/\.png|\.jpe?g/, '.webp'),
+          scale,
+          type: 'image/webp',
+        },
+        await convertToWebp(content),
+      );
     }
   };
 
   // Original file will be passed as `resourceContent`.
   await addFile(fileData.scale, resourceContent);
+  const size = imageSize(resourceContent, fileData.scale);
 
   // Find other files available for scales.
   const missingScales = scales.filter((s) => s !== fileData.scale);
   for (const scale of missingScales) {
     try {
       const filePath = getFilePath(scale);
-      const stats = await statAsync(filePath);
+      const stats = await fs.stat(filePath);
       if (stats.isFile()) {
-        const content = await readFileAsync(filePath);
+        const content = await fs.readFile(filePath);
         await addFile(scale, content);
       }
     } catch (e) {
@@ -90,5 +88,5 @@ export async function resolveImage(
     }
   }
 
-  return result;
+  return size;
 }

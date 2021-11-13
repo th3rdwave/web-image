@@ -2,28 +2,36 @@ import sharp from 'sharp';
 import path from 'path';
 import crypto from 'crypto';
 import fs from 'fs';
+import findCacheDir from 'find-cache-dir';
 
 const hashCache = new WeakMap();
+
+sharp.cache(false);
 
 function hashBuffer(data: Buffer) {
   const cached = hashCache.get(data);
   if (cached != null) {
     return cached;
   }
-  const result = crypto.createHash('md4').update(data).digest('base64url');
+  const result = crypto
+    .createHash('md4')
+    .update(data)
+    .digest('base64url' as any);
   hashCache.set(data, result);
   return result;
 }
 
 class FsCache {
+  _path: string | undefined;
+
   constructor() {
-    this._path = path.join(__dirname, '../..', '.cache');
-    try {
-      fs.mkdirSync(this._path, { recursive: true });
-    } catch (ex) {}
+    this._path = findCacheDir({ name: 'web-image-loader', create: true });
   }
 
-  async get(key: string) {
+  async get(key: string): Promise<Buffer | null> {
+    if (this._path == null) {
+      return null;
+    }
     try {
       return await fs.promises.readFile(path.join(this._path, key));
     } catch (ex) {
@@ -31,7 +39,10 @@ class FsCache {
     }
   }
 
-  async set(key: string, value: Buffer) {
+  async set(key: string, value: Buffer): Promise<void> {
+    if (this._path == null) {
+      return;
+    }
     await fs.promises.writeFile(path.join(this._path, key), value);
   }
 }

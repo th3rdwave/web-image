@@ -3,7 +3,6 @@ import path from 'path';
 import { validate } from 'schema-utils';
 import { loader } from 'webpack';
 import { resolveImage } from './ImageResolver';
-import { imageSize } from './ImageSizeResolver';
 import { createImageWrapper } from './ImageWrapper';
 import schema from './options';
 import { ResolvedImageSource, WebpackResolvedImage } from './Types';
@@ -35,13 +34,14 @@ interface Options {
   publicPath?: string | ((url: string, res: string) => string);
 }
 
-async function emitAndResolveImage(
+function emitAndResolveImage(
   context: loader.LoaderContext,
   options: Options,
   file: ResolvedImageSource,
-): Promise<WebpackResolvedImage> {
+  content: Buffer,
+): WebpackResolvedImage {
   const nameFormat = options.name ?? DEFAULT_IMAGE_NAME_FORMAT;
-  let fileName = interpolateName(context, nameFormat, file.content, file.scale);
+  let fileName = interpolateName(context, nameFormat, content, file.scale);
   if (file.type === 'image/webp') {
     fileName = fileName.replace(/\.png|\.jpe?g/, '.webp');
   }
@@ -69,7 +69,7 @@ async function emitAndResolveImage(
     publicPath = JSON.stringify(publicPath);
   }
 
-  context.emitFile(outputPath, file.content, null);
+  context.emitFile(outputPath, content, null);
 
   return {
     outputPath,
@@ -104,25 +104,22 @@ export default async function resolve(
   );
 
   try {
-    const resolvedFiles = await resolveImage(
+    const resolvedImages: WebpackResolvedImage[] = [];
+    const size = await resolveImage(
       this.resourcePath,
       content,
       scalings,
-    );
-    const images = await Promise.all(
-      resolvedFiles.map(async (file) => {
-        return await emitAndResolveImage(this, options, file);
-      }),
+      (file, fileContent) => {
+        resolvedImages.push(
+          emitAndResolveImage(this, options, file, fileContent),
+        );
+      },
     );
 
-    // It is possible that we don't have @1x image so normalize using scale.
-    const firstFile = resolvedFiles[0];
-    const size = imageSize(firstFile.content, firstFile.scale);
-
-    const result = wrapImage(size, images);
+    const result = wrapImage(size, resolvedImages);
     callback(null, result);
   } catch (e) {
-    callback(e);
+    callback(e as Error);
   }
 }
 

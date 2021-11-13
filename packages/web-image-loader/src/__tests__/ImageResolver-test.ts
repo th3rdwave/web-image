@@ -2,10 +2,10 @@ import mockFs from 'mock-fs';
 
 import { parsePath, resolveImage } from '../ImageResolver';
 
-jest.mock('../Converter');
+jest.mock('../Converter').mock('../ImageSizeResolver');
 
 const SCALES = [1, 2, 3];
-const BUFFER = Buffer.from([0]);
+const BUFFER = Buffer.from([1, 3, 3, 7]);
 
 describe('ImageResolver', () => {
   describe('parsePath', () => {
@@ -86,310 +86,63 @@ describe('ImageResolver', () => {
     });
 
     it('resolves images with modern format support', async () => {
-      expect(await resolveImage('/some/url/image.png', BUFFER, SCALES))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "content": Object {
-              "data": Array [
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/png",
-            "uri": "/some/url/image.png",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                9,
-                0,
-                0,
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/avif",
-            "uri": "/some/url/image.avif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                1,
-                3,
-                3,
-                7,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/webp",
-            "uri": "/some/url/image.webp",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                50,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/png",
-            "uri": "/some/url/image@2x.png",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                9,
-                0,
-                0,
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/avif",
-            "uri": "/some/url/image@2x.avif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                1,
-                3,
-                3,
-                7,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/webp",
-            "uri": "/some/url/image@2x.webp",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                51,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 3,
-            "type": "image/png",
-            "uri": "/some/url/image@3x.png",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                9,
-                0,
-                0,
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 3,
-            "type": "image/avif",
-            "uri": "/some/url/image@3x.avif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                1,
-                3,
-                3,
-                7,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 3,
-            "type": "image/webp",
-            "uri": "/some/url/image@3x.webp",
-          },
-        ]
-      `);
+      const emitFile = jest.fn();
+      const size = await resolveImage(
+        '/some/url/image.png',
+        BUFFER,
+        SCALES,
+        emitFile,
+      );
+      expect(size).toMatchSnapshot();
+      expect(emitFile.mock.calls).toMatchSnapshot();
     });
 
     it('resolves images without modern formats support', async () => {
-      expect(await resolveImage('/some/url/anim.gif', BUFFER, SCALES))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "content": Object {
-              "data": Array [
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/gif",
-            "uri": "/some/url/anim.gif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                54,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/gif",
-            "uri": "/some/url/anim@2x.gif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                55,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 3,
-            "type": "image/gif",
-            "uri": "/some/url/anim@3x.gif",
-          },
-        ]
-      `);
+      const emitFile = jest.fn();
+      const size = await resolveImage(
+        '/some/url/anim.gif',
+        BUFFER,
+        SCALES,
+        emitFile,
+      );
+      expect(size).toMatchSnapshot();
+      expect(emitFile.mock.calls).toMatchSnapshot();
     });
 
     it('resolves images with missing scales', async () => {
-      expect(await resolveImage('/some/url/lonely.png', BUFFER, SCALES))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "content": Object {
-              "data": Array [
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/png",
-            "uri": "/some/url/lonely.png",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                9,
-                0,
-                0,
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/avif",
-            "uri": "/some/url/lonely.avif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                1,
-                3,
-                3,
-                7,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/webp",
-            "uri": "/some/url/lonely.webp",
-          },
-        ]
-      `);
+      const emitFile = jest.fn();
+      const size = await resolveImage(
+        '/some/url/lonely.png',
+        BUFFER,
+        SCALES,
+        emitFile,
+      );
+      expect(size).toMatchSnapshot();
+      expect(emitFile.mock.calls).toMatchSnapshot();
     });
 
     it('resolves images with scale suffix', async () => {
-      expect(await resolveImage('/some/url/weird@2x.png', BUFFER, SCALES))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "content": Object {
-              "data": Array [
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/png",
-            "uri": "/some/url/weird@2x.png",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                9,
-                0,
-                0,
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/avif",
-            "uri": "/some/url/weird@2x.avif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                1,
-                3,
-                3,
-                7,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 2,
-            "type": "image/webp",
-            "uri": "/some/url/weird@2x.webp",
-          },
-        ]
-      `);
+      const emitFile = jest.fn();
+      const size = await resolveImage(
+        '/some/url/weird@2x.png',
+        BUFFER,
+        SCALES,
+        emitFile,
+      );
+      expect(size).toMatchSnapshot();
+      expect(emitFile.mock.calls).toMatchSnapshot();
     });
 
     it('ignores images outside of passed scales', async () => {
-      expect(await resolveImage('/some/url/wow.png', BUFFER, SCALES))
-        .toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "content": Object {
-              "data": Array [
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/png",
-            "uri": "/some/url/wow.png",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                9,
-                0,
-                0,
-                0,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/avif",
-            "uri": "/some/url/wow.avif",
-          },
-          Object {
-            "content": Object {
-              "data": Array [
-                1,
-                3,
-                3,
-                7,
-              ],
-              "type": "Buffer",
-            },
-            "scale": 1,
-            "type": "image/webp",
-            "uri": "/some/url/wow.webp",
-          },
-        ]
-      `);
+      const emitFile = jest.fn();
+      const size = await resolveImage(
+        '/some/url/wow.png',
+        BUFFER,
+        SCALES,
+        emitFile,
+      );
+      expect(size).toMatchSnapshot();
+      expect(emitFile.mock.calls).toMatchSnapshot();
     });
   });
 });

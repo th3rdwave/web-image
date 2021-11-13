@@ -31,6 +31,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
     "@react-native-community/bob": "^0.13.1",
+    "@types/find-cache-dir": "^3.2.1",
     "@types/image-size": "^0.8.0",
     "@types/loader-utils": "^2.0.3",
     "@types/lodash": "^4.14.172",
@@ -42,6 +43,7 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
+    "find-cache-dir": "^3.3.2",
     "image-size": "^1.0.0",
     "loader-utils": "^2.0.0",
     "lodash": "4.17.21",

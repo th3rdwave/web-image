@@ -1,6 +1,6 @@
 import { imageSize as baseImageSize } from 'image-size';
 
-interface Size {
+export interface Size {
   width: number;
   height: number;
 }
