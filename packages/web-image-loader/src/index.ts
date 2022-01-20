@@ -32,6 +32,10 @@ interface Options {
   imageClassPath?: string;
   outputPath?: string;
   publicPath?: string | ((url: string, res: string) => string);
+  formats?: {
+    avif?: boolean;
+    webp?: boolean;
+  };
 }
 
 function emitAndResolveImage(
@@ -95,6 +99,10 @@ export default async function resolve(
   const esModule =
     typeof options.esModule !== 'undefined' ? options.esModule : false;
   const scalings = options.scalings ?? DEFAULT_SCALINGS;
+  const formats = {
+    avif: options.formats?.avif ?? true,
+    webp: options.formats?.webp ?? true,
+  };
   const wrapImage = createImageWrapper(
     loaderUtils.stringifyRequest(
       this,
@@ -109,6 +117,7 @@ export default async function resolve(
       this.resourcePath,
       content,
       scalings,
+      formats,
       (file, fileContent) => {
         resolvedImages.push(
           emitAndResolveImage(this, options, file, fileContent),

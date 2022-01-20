@@ -32,6 +32,7 @@ export async function resolveImage(
   resourcePath: string,
   resourceContent: Buffer,
   scales: number[],
+  formats: { avif: boolean; webp: boolean },
   emitFileCallback: (file: ResolvedImageSource, content: Buffer) => void,
 ): Promise<Size> {
   const fileData = parsePath(resourcePath);
@@ -50,22 +51,26 @@ export async function resolveImage(
     const filePath = getFilePath(scale);
     emitFileCallback({ uri: filePath, scale, type }, content);
     if (generateModernFormats) {
-      emitFileCallback(
-        {
-          uri: filePath.replace(/\.png|\.jpe?g/, '.avif'),
-          scale,
-          type: 'image/avif',
-        },
-        await convertToAvif(content),
-      );
-      emitFileCallback(
-        {
-          uri: filePath.replace(/\.png|\.jpe?g/, '.webp'),
-          scale,
-          type: 'image/webp',
-        },
-        await convertToWebp(content),
-      );
+      if (formats.avif) {
+        emitFileCallback(
+          {
+            uri: filePath.replace(/\.png|\.jpe?g/, '.avif'),
+            scale,
+            type: 'image/avif',
+          },
+          await convertToAvif(content),
+        );
+      }
+      if (formats.webp) {
+        emitFileCallback(
+          {
+            uri: filePath.replace(/\.png|\.jpe?g/, '.webp'),
+            scale,
+            type: 'image/webp',
+          },
+          await convertToWebp(content),
+        );
+      }
     }
   };
 

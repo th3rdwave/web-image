@@ -39,6 +39,10 @@ const schema: JSONSchema7 = {
         'By default, react-native-web-image-loader generates JS modules that use the ES modules syntax.',
       type: 'boolean',
     },
+    formats: {
+      description: 'Formats to generate.',
+      type: 'object',
+    },
   },
 };
 
