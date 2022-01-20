@@ -5,6 +5,7 @@ import { parsePath, resolveImage } from '../ImageResolver';
 jest.mock('../Converter').mock('../ImageSizeResolver');
 
 const SCALES = [1, 2, 3];
+const FORMATS = { avif: true, webp: true };
 const BUFFER = Buffer.from([1, 3, 3, 7]);
 
 describe('ImageResolver', () => {
@@ -91,6 +92,7 @@ describe('ImageResolver', () => {
         '/some/url/image.png',
         BUFFER,
         SCALES,
+        FORMATS,
         emitFile,
       );
       expect(size).toMatchSnapshot();
@@ -103,6 +105,7 @@ describe('ImageResolver', () => {
         '/some/url/anim.gif',
         BUFFER,
         SCALES,
+        FORMATS,
         emitFile,
       );
       expect(size).toMatchSnapshot();
@@ -115,6 +118,7 @@ describe('ImageResolver', () => {
         '/some/url/lonely.png',
         BUFFER,
         SCALES,
+        FORMATS,
         emitFile,
       );
       expect(size).toMatchSnapshot();
@@ -127,6 +131,7 @@ describe('ImageResolver', () => {
         '/some/url/weird@2x.png',
         BUFFER,
         SCALES,
+        FORMATS,
         emitFile,
       );
       expect(size).toMatchSnapshot();
@@ -139,6 +144,7 @@ describe('ImageResolver', () => {
         '/some/url/wow.png',
         BUFFER,
         SCALES,
+        FORMATS,
         emitFile,
       );
       expect(size).toMatchSnapshot();
