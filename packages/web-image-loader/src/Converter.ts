@@ -1,8 +1,9 @@
 import sharp from 'sharp';
 import path from 'path';
-import crypto from 'crypto';
 import fs from 'fs';
 import findCacheDir from 'find-cache-dir';
+// @ts-expect-error
+import createHash from 'webpack/lib/util/createHash';
 
 const hashCache = new WeakMap();
 
@@ -13,10 +14,7 @@ function hashBuffer(data: Buffer) {
   if (cached != null) {
     return cached;
   }
-  const result = crypto
-    .createHash('md4')
-    .update(data)
-    .digest('base64url' as any);
+  const result = createHash('xxhash64').update(data).digest('hex');
   hashCache.set(data, result);
   return result;
 }
