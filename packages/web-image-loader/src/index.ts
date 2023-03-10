@@ -132,4 +132,4 @@ export default async function resolve(
   }
 }
 
-export const raw = true;
+resolve.raw = true;
