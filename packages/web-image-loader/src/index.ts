@@ -133,3 +133,4 @@ export default async function resolve(
 }
 
 resolve.raw = true;
+export const raw = true;
