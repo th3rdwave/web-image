@@ -1,6 +1,6 @@
 {
   "name": "@th3rdwave/web-image-loader",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Webpack loader for web-image",
   "keywords": [
     "react",
