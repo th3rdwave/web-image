@@ -199,6 +199,8 @@ export const Image = React.forwardRef<View, ImageProps>(
       source,
       resizeMode: propsResizeMode,
       accessibilityLabel,
+      'aria-label': ariaLabel,
+      alt,
       width,
       height,
       critical,
@@ -335,7 +337,7 @@ export const Image = React.forwardRef<View, ImageProps>(
               }}
               src={resolvedSource.uri}
               loading={critical ? 'eager' : 'lazy'}
-              alt={accessibilityLabel}
+              alt={alt ?? ariaLabel ?? accessibilityLabel}
               width={resolvedSource.width}
               height={resolvedSource.height}
               draggable={draggable}
